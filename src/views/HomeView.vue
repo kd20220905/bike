@@ -35,7 +35,7 @@ onMounted(() => {
       const data = res.data.retVal;
       // 建 marker 並放上地圖
       const customIcon = L.icon({
-        iconUrl: "./src/assets/dot.svg",
+        iconUrl: "./dot.svg",
         iconSize: [32, 32],
       });
       data.forEach((d) => {
