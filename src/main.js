@@ -13,8 +13,11 @@ import {
   faUser,
   faGear,
   faBicycle,
+  faStar as fasStar,
   faSquareParking,
+  faStarHalfStroke,
 } from "@fortawesome/free-solid-svg-icons";
+import { faStar as farStar } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 library.add(
   faHatWizard,
@@ -23,7 +26,10 @@ library.add(
   faUser,
   faGear,
   faBicycle,
-  faSquareParking
+  fasStar,
+  farStar,
+  faSquareParking,
+  faStarHalfStroke
 );
 
 const app = createApp(App);
