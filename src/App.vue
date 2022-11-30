@@ -3,5 +3,7 @@ import { RouterView } from "vue-router";
 </script>
 
 <template>
-  <RouterView />
+  <div class="bg-[url('./image/bg.png')] min-h-screen pb-[5%] pt-[1%]">
+    <RouterView />
+  </div>
 </template>

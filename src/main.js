@@ -16,6 +16,7 @@ import {
   faStar as fasStar,
   faSquareParking,
   faStarHalfStroke,
+  faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 import { faStar as farStar } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -29,7 +30,8 @@ library.add(
   fasStar,
   farStar,
   faSquareParking,
-  faStarHalfStroke
+  faStarHalfStroke,
+  faMagnifyingGlass
 );
 
 const app = createApp(App);
