@@ -1,6 +1,9 @@
 <script setup>
+import { Swiper, SwiperSlide } from "swiper/vue";
+import { Pagination } from "swiper";
+import "swiper/css";
+import "swiper/css/pagination";
 import { ref } from "vue";
-const isActive = ref([false, false, false, false, false, false]);
 const systemErrorCodes = ref([
   [
     "系統代碼 - 0",
@@ -43,30 +46,41 @@ const systemErrorCodes = ref([
     `出現訊息代碼7：表示電子票證異常，請撥打各縣市客服電話 (一般付費)確認卡片狀態。`,
   ],
 ]);
-const toggleActive = (index) => {
-  console.log("toggle");
-  isActive.value[index] = !isActive.value[index];
-};
+const modules = ref([Pagination]);
+const pagination = ref({
+  clickable: true,
+  renderBullet: function (index, className) {
+    return (
+      '<span class="w-[25px] h-[25px] bg-white ' +
+      className +
+      '">' +
+      index +
+      "</span>"
+    );
+  },
+});
 </script>
 
 <template>
-  <div class="grid grid-cols-3 md:grid-cols-1 gap-5 m-5">
-    <div
-      class="cube relative rounded bg-yellow-300/80 overflow-hidden flex items-center justify-center h-[180px]"
-      v-for="(systemError, index) in systemErrorCodes"
-      :key="systemError[0]"
-      @click.prevent="toggleActive(index)"
-    >
-      <p class="text-3xl text-white font-bold">{{ systemError[0] }}</p>
-      <div
-        class="bg-white w-full h-full absolute -translate-x-[95%] ease-in duration-100 text-white"
-        :class="{ 'translate-x-0 text-slate-700': isActive[index] }"
+  <div class="grid grid-cols-3 md:grid-cols-1 gap-5 m-5"></div>
+  <div>
+    <p class="text-white text-2xl font-bold mb-3">系統代碼參照</p>
+    <Swiper :pagination="pagination" :modules="modules">
+      <SwiperSlide
+        v-for="(systemError, index) in systemErrorCodes"
+        :key="systemError[0]"
       >
-        <h5 class="font-bold bg-red-400/80 py-2 text-center text-white">
-          {{ systemError[0] }}
-        </h5>
-        <p class="p-2" v-html="systemError[1]" />
-      </div>
-    </div>
+        <div
+          class="bg-slate-800 text-white min-h-[415px] md:min-h-[250px]"
+          :class="{ 'translate-x-0 text-white': isActive[index] }"
+        >
+          <h5 class="font-bold bg-slate-900 py-2 text-center text-white">
+            {{ systemError[0] }}
+          </h5>
+          <p class="p-2" v-html="systemError[1]" />
+        </div>
+      </SwiperSlide>
+      <div class="swiper-pagination"></div>
+    </Swiper>
   </div>
 </template>
