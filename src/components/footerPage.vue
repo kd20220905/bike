@@ -70,10 +70,7 @@ const pagination = ref({
         v-for="(systemError, index) in systemErrorCodes"
         :key="systemError[0]"
       >
-        <div
-          class="bg-slate-800 text-white min-h-[415px] md:min-h-[250px]"
-          :class="{ 'translate-x-0 text-white': isActive[index] }"
-        >
+        <div class="bg-slate-800 text-white min-h-[415px] md:min-h-[250px]">
           <h5 class="font-bold bg-slate-900 py-2 text-center text-white">
             {{ systemError[0] }}
           </h5>
