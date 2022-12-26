@@ -118,7 +118,15 @@ const searchBikeCode = (nCode) => {
   let latLng = "";
   for (let i = 0; i < bikeAry.length; i++) {
     if (bikeAry[i].sno === sCode) {
+      // show bar
+      markerInfo.value.title = ReGex(bikeAry[i].sna);
+      markerInfo.value.bemp = bikeAry[i].bemp;
+      markerInfo.value.sbi = bikeAry[i].sbi;
+      markerInfo.value.address = bikeAry[i].address;
+      markerInfo.value.code = bikeAry[i].sno;
       latLng = bikeAry[i].lat + "," + bikeAry[i].lng;
+      bar.value.show();
+      // set center
       changeCenter(latLng, 18);
       isSearchState.value = true;
       break;
