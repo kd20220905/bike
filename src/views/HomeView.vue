@@ -101,13 +101,18 @@ onMounted(() => {
   // map地圖
   buildMap(center.value, zoom.value, m_mono);
 });
+const changeCenter = (latLng) => {
+  const aLatLng = latLng.split(",");
+  map.value.setView(aLatLng);
+};
 </script>
 
 <template>
   <!-- <p>{{ bikeAry }}</p> -->
   <main>
     <div class="max-w-screen-xl mx-auto">
-      <NavbarPage />
+      <button class="bg-red-400" @click="changeCenter()">按鈕</button>
+      <NavbarPage @set-center="changeCenter" />
       <div id="map" class="md:pb-[60%] pb-[100%] h-0"></div>
       <div id="sidebar" class="!bg-white/80">
         <MarkerInfo

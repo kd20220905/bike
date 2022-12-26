@@ -1,8 +1,9 @@
 <script setup>
 import { ref } from "vue";
+const emit = defineEmits(["set-center"])
 const area = ref("24.1845974,120.6087352");
 const selectArea = () => {
-  console.log(area.value);
+  emit("set-center", area.value);
 };
 </script>
 
