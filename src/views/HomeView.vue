@@ -112,6 +112,7 @@ const changeCenter = (latLng, nZoom) => {
   const aLatLng = latLng.split(",");
   map.value.setView(aLatLng, nZoom);
 };
+
 const isSearchState = ref(true);
 const searchBikeCode = (nCode) => {
   const sCode = nCode.toString();
@@ -141,7 +142,6 @@ const searchBikeCode = (nCode) => {
   <!-- <p>{{ bikeAry }}</p> -->
   <main>
     <div class="max-w-screen-xl mx-auto">
-      <button class="bg-red-400" @click="changeValue()">按鈕</button>
       <NavbarPage
         @set-center="changeCenter"
         @search-bike-code="searchBikeCode"
