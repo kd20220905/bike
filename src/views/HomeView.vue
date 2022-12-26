@@ -96,9 +96,15 @@ async function getBikes() {
     throw new Error(err);
   }
 }
+const repeatGetAPI = () => {
+  let liveSetTimeout = "";
+  clearTimeout(liveSetTimeout);
+  getBikes();
+  liveSetTimeout = setTimeout(repeatGetAPI, 1000 * 60 * 5);
+};
 onMounted(() => {
   // 接收bike資訊
-  getBikes();
+  repeatGetAPI();
   // map地圖
   buildMap(center.value, zoom.value, m_mono);
 });
