@@ -4,8 +4,6 @@ import "leaflet/dist/leaflet.css";
 import "leaflet-sidebar/src/L.Control.Sidebar.css";
 import "leaflet-sidebar";
 import { useCounterStore } from "@/stores/counter";
-import { storeToRefs } from "pinia";
-import axios from "axios";
 import { ref, onMounted } from "vue";
 import MarkerInfo from "../components/markerInfo.vue";
 import NavbarPage from "../components/navbarPage.vue";
@@ -15,10 +13,7 @@ const store = useCounterStore();
 const { ReGex, GetBikes, bikeAry } = store;
 
 const map = ref(null);
-const center = ref({
-  lat: 24.1640894,
-  lng: 120.659922,
-});
+const center = ref([24.1640894, 120.659922]);
 const zoom = ref(16);
 const m_mono = L.tileLayer(
   "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -36,6 +31,12 @@ const markerInfo = ref({
   code: "000000",
 });
 
+/**
+ * 地圖初始化
+ * @param {Object} center 地圖中心
+ * @param {Number} zoom 地圖視野
+ * @param {L.tileLayer} m_mono 地圖資訊
+ */
 const buildMap = (center, zoom, m_mono) => {
   map.value = L.map("map", {
     center: center, //中心座標
@@ -101,9 +102,30 @@ onMounted(() => {
   // map地圖
   buildMap(center.value, zoom.value, m_mono);
 });
-const changeCenter = (latLng) => {
+
+// Navbar
+/**
+ * 改變地圖中心座標
+ * @param {String} latLng ex:"24.1845974,120.6087352"
+ */
+const changeCenter = (latLng, nZoom) => {
   const aLatLng = latLng.split(",");
-  map.value.setView(aLatLng);
+  map.value.setView(aLatLng, nZoom);
+};
+const isSearchState = ref(true);
+const searchBikeCode = (nCode) => {
+  const sCode = nCode.toString();
+  let latLng = "";
+  for (let i = 0; i < bikeAry.length; i++) {
+    if (bikeAry[i].sno === sCode) {
+      latLng = bikeAry[i].lat + "," + bikeAry[i].lng;
+      changeCenter(latLng, 18);
+      isSearchState.value = true;
+      break;
+    } else {
+      isSearchState.value = false;
+    }
+  }
 };
 </script>
 
@@ -111,8 +133,12 @@ const changeCenter = (latLng) => {
   <!-- <p>{{ bikeAry }}</p> -->
   <main>
     <div class="max-w-screen-xl mx-auto">
-      <button class="bg-red-400" @click="changeCenter()">按鈕</button>
-      <NavbarPage @set-center="changeCenter" />
+      <button class="bg-red-400" @click="changeValue()">按鈕</button>
+      <NavbarPage
+        @set-center="changeCenter"
+        @search-bike-code="searchBikeCode"
+        :issearchstate="isSearchState"
+      />
       <div id="map" class="md:pb-[60%] pb-[100%] h-0"></div>
       <div id="sidebar" class="!bg-white/80">
         <MarkerInfo
