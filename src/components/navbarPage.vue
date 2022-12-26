@@ -1,9 +1,18 @@
 <script setup>
-import { ref } from "vue";
-const emit = defineEmits(["set-center"])
-const area = ref("24.1845974,120.6087352");
+import { ref, onUpdated } from "vue";
+const emit = defineEmits(["set-center", "search-bike-code"]);
+const props = defineProps({
+  issearchstate: Boolean,
+});
+const area = ref("");
+const searchCode = ref("");
 const selectArea = () => {
   emit("set-center", area.value);
+};
+const searchBikeCode = () => {
+  emit("search-bike-code", searchCode.value);
+  searchCode.value = "";
+  area.value = "";
 };
 </script>
 
@@ -26,6 +35,7 @@ const selectArea = () => {
           @change="selectArea()"
           v-model="area"
         >
+          <option value="" disabled>請選擇您要的項目</option>
           <option value="24.1418783,120.6755461">中區</option>
           <option value="24.1372346,120.679742">東區</option>
           <option value="24.145992,120.6573995">西區</option>
@@ -64,12 +74,19 @@ const selectArea = () => {
           type="number"
           id="bikeNumber"
           class="px-4 py-1 appearance-none focus:outline-red-400 rounded-l-sm"
+          placeholder="請輸入車號代碼"
+          v-model="searchCode"
         />
         <button
+          type="button"
           class="bg-white px-4 py-1 rounded-r-sm hover:bg-red-600 hover:text-white inline"
+          @click.prevent="searchBikeCode()"
         >
           <font-awesome-icon icon="magnifying-glass" />
         </button>
+        <p class="text-sm text-red-600" v-if="!props.issearchstate">
+          查無車站代碼
+        </p>
       </label>
     </form>
   </div>
