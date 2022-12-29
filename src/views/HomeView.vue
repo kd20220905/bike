@@ -38,6 +38,7 @@ const markerInfo = ref({
  * @param {L.tileLayer} m_mono 地圖資訊
  */
 const buildMap = (center, zoom, m_mono) => {
+  map.value = null;
   map.value = L.map("map", {
     center: center, //中心座標
     zoom: zoom, // 遠近
@@ -57,13 +58,18 @@ const buildMap = (center, zoom, m_mono) => {
   });
   map.value.addControl(bar.value);
 };
+let markers = [];
 const markerInMap = (data) => {
+  markers.forEach((marker) => {
+    marker.onRemove(map.value);
+  });
+  markers = [];
   const customIcon = L.icon({
     iconUrl: "./image/dot.svg",
     iconSize: [32, 32],
   });
   data.forEach((d) => {
-    L.marker([d.lat, d.lng], {
+    const marker = L.marker([d.lat, d.lng], {
       icon: customIcon,
       title: ReGex(d.sna),
       bemp: d.bemp,
@@ -73,7 +79,9 @@ const markerInMap = (data) => {
     })
       .addTo(map.value)
       .on("click", clickMarker);
+    markers.push(marker);
   });
+  console.log(markers);
 };
 const clickMarker = (event) => {
   const { title, bemp, sbi, address, code } = event.target.options;
@@ -96,6 +104,7 @@ async function getBikes() {
     throw new Error(err);
   }
 }
+// 每五分鐘重新接收 API
 const repeatGetAPI = () => {
   let liveSetTimeout = "";
   clearTimeout(liveSetTimeout);
