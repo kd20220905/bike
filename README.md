@@ -1,35 +1,16 @@
-# vite-bike
+# 台中市You-bike2 腳踏車站點即時現況
 
-This template should help get you started developing with Vue 3 in Vite.
+利用 leaflet 地圖工具，建立站點位置與資訊
+axios串接 台中市You-bike2 的API，每5分鐘一次重新接收API
+搭配 leaflet-sidebar 輔助套件，活化地圖資訊呈現
 
-## Recommended IDE Setup
+## 使用工具
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+* Vue vite
+* Tailwind CSS
+* pinia
+* axios
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+* leaflet
+* leaflet-sidebar
+* swiper
