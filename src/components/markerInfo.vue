@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, ref } from "vue";
+import { defineProps, ref, watchEffect } from "vue";
 const props = defineProps({
   title: {
     type: String,
@@ -19,15 +19,45 @@ const props = defineProps({
   },
 });
 const stars = ref([
-  ["fas", "star"],
-  ["fas", "star"],
-  ["fas", "star"],
-  ["fas", "star"],
-  ["fas", "star"],
+  ["far", "star"],
+  ["far", "star"],
+  ["far", "star"],
+  ["far", "star"],
+  ["far", "star"],
 ]);
-const hoverStar = () => {
-  console.log("star");
-}
+
+const recommendInfo = ref({
+  name: "",
+  address: "",
+  tel: "",
+  stars: 1,
+});
+watchEffect(() => {
+  for (let i = 0; i < recommendInfo.value.stars; i++) {
+    stars.value[i] = ["fas", "star"];
+  }
+});
+const hoverInStar = (index) => {
+  for (let i = 0; i < stars.value.length; i++) {
+    if (i <= index) {
+      stars.value[i] = ["fas", "star"];
+    } else {
+      stars.value[i] = ["far", "star"];
+    }
+  }
+};
+const hoverOutStar = () => {
+  for (let i = 0; i < stars.value.length; i++) {
+    if (i < recommendInfo.value.stars) {
+      stars.value[i] = ["fas", "star"];
+    } else {
+      stars.value[i] = ["far", "star"];
+    }
+  }
+};
+const clickStar = (index) => {
+  recommendInfo.value.stars = index + 1;
+};
 </script>
 
 <template>
@@ -52,15 +82,35 @@ const hoverStar = () => {
   <h3 class="text-bold text-2xl font-bold mt-5 text-center">我要推薦</h3>
   <form class="mt-2 grid grid-cols-2">
     <label for="viewTitle" class="text-lg font-bold">景點(餐廳)名稱</label>
-    <input type="text" id="viewTitle" class="border-2 rounded" />
+    <input
+      type="text"
+      id="viewTitle"
+      class="border-2 rounded"
+      v-model="recommendInfo.name"
+    />
     <label for="viewTitle" class="text-lg font-bold mt-2">聯絡地址</label>
-    <input type="text" id="viewTitle" class="border-2 rounded mt-2" />
+    <input
+      type="text"
+      id="viewTitle"
+      class="border-2 rounded mt-2"
+      v-model="recommendInfo.address"
+    />
     <label for="viewTitle" class="text-lg font-bold mt-2">聯絡電話</label>
-    <input type="text" id="viewTitle" class="border-2 rounded mt-2" />
+    <input
+      type="text"
+      id="viewTitle"
+      class="border-2 rounded mt-2"
+      v-model="recommendInfo.tel"
+    />
     <label for="viewTitle" class="text-lg font-bold mt-2">推薦指數</label>
     <div class="text-2xl text-yellow-400 inline mt-1">
       <button type="button" v-for="(star, index) in stars" :key="star + index">
-        <font-awesome-icon :icon="['fas', 'star']" @hover="hoverStar()" />
+        <font-awesome-icon
+          :icon="star"
+          @mouseenter="hoverInStar(index)"
+          @mouseleave="hoverOutStar()"
+          @click="clickStar(index)"
+        />
       </button>
       <!-- <font-awesome-icon icon="star" />
       <font-awesome-icon icon="star" />
@@ -87,7 +137,7 @@ const hoverStar = () => {
         <font-awesome-icon icon="star" />
         <font-awesome-icon icon="star" />
         <font-awesome-icon icon="star" />
-        <font-awesome-icon icon="star-half-stroke" />
+        <font-awesome-icon icon="star" />
         <font-awesome-icon :icon="['far', 'star']" />
       </div>
     </div>
