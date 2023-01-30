@@ -1,5 +1,6 @@
 <script setup>
-import { defineProps, ref, watchEffect, onUpdated } from "vue";
+import { defineProps, ref, watchEffect } from "vue";
+import { addLocationRecommend } from "../assets/API.js";
 const props = defineProps({
   title: {
     type: String,
@@ -18,7 +19,7 @@ const props = defineProps({
     default: "3",
   },
   locationrecommendinfo: {
-    type: Object,
+    type: Array,
   },
 });
 // 自我推薦
@@ -60,6 +61,18 @@ const hoverOutStar = () => {
 };
 const clickStar = (index) => {
   recommendInfo.value.stars = index + 1;
+};
+const submitRecommend = () => {
+  const data = {
+    code: props.code,
+    recommend: {
+      ...recommendInfo.value,
+    },
+  };
+  addLocationRecommend(data).then((res) => {
+    console.log(res);
+  });
+  console.log(data, "submitRecommend");
 };
 </script>
 
@@ -115,19 +128,16 @@ const clickStar = (index) => {
           @click="clickStar(index)"
         />
       </button>
-      <!-- <font-awesome-icon icon="star" />
-      <font-awesome-icon icon="star" />
-      <font-awesome-icon icon="star-half-stroke" />
-      <font-awesome-icon :icon="['far', 'star']" /> -->
     </div>
     <button
       class="col-span-2 py-2 bg-red-400 rounded text-white font-bold text-md mt-2"
+      @click.prevent="submitRecommend()"
     >
       送出
     </button>
   </form>
   <h3 class="text-bold text-2xl font-bold mt-5 text-center">推薦景點</h3>
-  <template v-for="info in locationrecommendinfo.recommend" :key="info.name">
+  <template v-for="info in locationrecommendinfo" :key="info.name">
     <div class="my-3 border-2 border-black/20 rounded w-full">
       <div
         class="bg-[url('https://lh5.googleusercontent.com/p/AF1QipNuAAuk2DjGEmKkQfUMlZgT8Kk2Lkxkrz1_ysCd=w260-h175-n-k-no')] bg-cover rounded-t"

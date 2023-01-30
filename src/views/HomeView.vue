@@ -97,20 +97,19 @@ async function clickMarker(event) {
   bar.value.show();
   map.value.setView(event.latlng, 18);
 }
-// 已推薦
+// 已推薦API
 async function getLocationRecommend() {
   await LocationRecommend.then((res) => {
     console.log(res, "getLocationRecommend");
     const data = res.data;
-    data.forEach((item) => {
+    for (let [key, value] of data) {
+      console.log(markerInfo.value.code === key, "map");
       LocationRecommendInfo.value =
-        item.code === markerInfo.value.code
-          ? item
-          : LocationRecommendInfo.value;
-    });
+        key === markerInfo.value.code ? value : LocationRecommendInfo.value;
+    }
   });
 }
-const LocationRecommendInfo = ref({});
+const LocationRecommendInfo = ref([]);
 async function getBikes() {
   try {
     const retVal = await GetBikes();
@@ -144,6 +143,7 @@ const changeCenter = (latLng, nZoom) => {
   map.value.setView(aLatLng, nZoom);
 };
 
+// 以代碼搜尋站點
 const isSearchState = ref(true);
 const searchBikeCode = (nCode) => {
   const sCode = nCode.toString();
@@ -166,6 +166,8 @@ const searchBikeCode = (nCode) => {
       isSearchState.value = false;
     }
   }
+  LocationRecommendInfo.value = {};
+  getLocationRecommend();
 };
 </script>
 
