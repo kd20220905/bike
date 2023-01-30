@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, ref, watchEffect } from "vue";
+import { defineProps, ref, watchEffect, onUpdated } from "vue";
 const props = defineProps({
   title: {
     type: String,
@@ -17,7 +17,11 @@ const props = defineProps({
     type: String,
     default: "3",
   },
+  locationrecommendinfo: {
+    type: Object,
+  },
 });
+// 自我推薦
 const stars = ref([
   ["far", "star"],
   ["far", "star"],
@@ -25,7 +29,6 @@ const stars = ref([
   ["far", "star"],
   ["far", "star"],
 ]);
-
 const recommendInfo = ref({
   name: "",
   address: "",
@@ -124,22 +127,23 @@ const clickStar = (index) => {
     </button>
   </form>
   <h3 class="text-bold text-2xl font-bold mt-5 text-center">推薦景點</h3>
-  <div class="my-3 border-2 border-black/20 rounded w-full">
-    <div
-      class="bg-[url('https://lh5.googleusercontent.com/p/AF1QipNuAAuk2DjGEmKkQfUMlZgT8Kk2Lkxkrz1_ysCd=w260-h175-n-k-no')] bg-cover rounded-t"
-      style="height: 100px"
-    ></div>
-    <div class="m-2">
-      <h4 class="text-bold text-2xl font-bold">嘉義涼麵</h4>
-      <p>407台中市西屯區西屯路三段164-7號</p>
-      <p>04 2461 1622</p>
-      <div class="text-2xl text-yellow-400">
-        <font-awesome-icon icon="star" />
-        <font-awesome-icon icon="star" />
-        <font-awesome-icon icon="star" />
-        <font-awesome-icon icon="star" />
-        <font-awesome-icon :icon="['far', 'star']" />
+  <template v-for="info in locationrecommendinfo.recommend" :key="info.name">
+    <div class="my-3 border-2 border-black/20 rounded w-full">
+      <div
+        class="bg-[url('https://lh5.googleusercontent.com/p/AF1QipNuAAuk2DjGEmKkQfUMlZgT8Kk2Lkxkrz1_ysCd=w260-h175-n-k-no')] bg-cover rounded-t"
+        style="height: 100px"
+      ></div>
+      <div class="m-2">
+        <h4 class="text-bold text-2xl font-bold">{{ info.name }}</h4>
+        <p>{{ info.address }}</p>
+        <p>{{ info.tel }}</p>
+        <div class="text-2xl text-yellow-400">
+          <template v-for="index in 5" :key="index">
+            <font-awesome-icon icon="star" v-if="index <= info.stars" />
+            <font-awesome-icon :icon="['far', 'star']" v-else />
+          </template>
+        </div>
       </div>
     </div>
-  </div>
+  </template>
 </template>

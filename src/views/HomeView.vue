@@ -3,6 +3,7 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-sidebar/src/L.Control.Sidebar.css";
 import "leaflet-sidebar";
+import { LocationRecommend } from "../assets/API.js";
 import { useCounterStore } from "@/stores/counter";
 import { ref, onMounted } from "vue";
 import MarkerInfo from "../components/markerInfo.vue";
@@ -83,18 +84,33 @@ const markerInMap = (data) => {
   });
   console.log(markers);
 };
-const clickMarker = (event) => {
+async function clickMarker(event) {
   const { title, bemp, sbi, address, code } = event.target.options;
-
   markerInfo.value.title = title;
   markerInfo.value.bemp = bemp;
   markerInfo.value.sbi = sbi;
   markerInfo.value.address = address;
   markerInfo.value.code = code;
 
+  LocationRecommendInfo.value = {};
+  await getLocationRecommend();
   bar.value.show();
   map.value.setView(event.latlng, 18);
-};
+}
+// 已推薦
+async function getLocationRecommend() {
+  await LocationRecommend.then((res) => {
+    console.log(res, "getLocationRecommend");
+    const data = res.data;
+    data.forEach((item) => {
+      LocationRecommendInfo.value =
+        item.code === markerInfo.value.code
+          ? item
+          : LocationRecommendInfo.value;
+    });
+  });
+}
+const LocationRecommendInfo = ref({});
 async function getBikes() {
   try {
     const retVal = await GetBikes();
@@ -169,6 +185,7 @@ const searchBikeCode = (nCode) => {
           :code="markerInfo.code"
           :sbi="markerInfo.sbi"
           :bemp="markerInfo.bemp"
+          :locationrecommendinfo="LocationRecommendInfo"
         />
       </div>
       <FooterPage />
