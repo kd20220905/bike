@@ -1,6 +1,6 @@
 <script setup>
 import { defineProps, ref, watchEffect } from "vue";
-import { addLocationRecommend } from "../assets/API.js";
+import { addLocationRecommend, delLocationRecommend } from "../assets/API.js";
 const props = defineProps({
   title: {
     type: String,
@@ -85,6 +85,15 @@ const submitRecommend = async () => {
   emit("getlocationrecommend");
   console.log(data, "submitRecommend");
 };
+const delRecommend = async (info) => {
+  const data = {
+    code: props.code,
+    name: info.name,
+  };
+  await delLocationRecommend(data);
+  emit("getlocationrecommend");
+  console.log(data, "delLocationRecommend");
+};
 </script>
 
 <template>
@@ -149,7 +158,14 @@ const submitRecommend = async () => {
   </form>
   <h3 class="text-bold text-2xl font-bold mt-5 text-center">推薦景點</h3>
   <template v-for="info in locationrecommendinfo" :key="info.name">
-    <div class="my-3 border-2 border-black/20 rounded w-full">
+    <div class="my-3 border-2 border-black/20 rounded w-full relative">
+      <button
+        type="button"
+        class="absolute p-2 rounded-sm bg-red-400 text-white right-0 m-2 hover:bg-red-600"
+        @click="delRecommend(info)"
+      >
+        <font-awesome-icon icon="trash-can" />
+      </button>
       <div
         class="bg-[url('https://lh5.googleusercontent.com/p/AF1QipNuAAuk2DjGEmKkQfUMlZgT8Kk2Lkxkrz1_ysCd=w260-h175-n-k-no')] bg-cover rounded-t"
         style="height: 100px"

@@ -36,6 +36,7 @@ LocationRecommendList.set("500606090", [
   },
 ]);
 
+// 景點List
 export const LocationRecommend = new Promise((resolve) => {
   const data = {
     data: LocationRecommendList,
@@ -46,7 +47,7 @@ export const LocationRecommend = new Promise((resolve) => {
   });
 });
 
-// 需要新增景點API
+// 新增景點
 export const addLocationRecommend = (info) => {
   return new Promise((resolve) => {
     if (!LocationRecommendList.get(info.code)) {
@@ -54,6 +55,22 @@ export const addLocationRecommend = (info) => {
     } else {
       LocationRecommendList.get(info.code).push(info.recommend);
     }
+    const data = {
+      data: {},
+      state: 200,
+    };
+    resolve(data);
+  });
+};
+
+// 刪除景點
+export const delLocationRecommend = (info) => {
+  return new Promise((resolve) => {
+    const { code, name } = info;
+    const ary = LocationRecommendList.get(code).filter((item) => {
+      return item.name !== name;
+    });
+    LocationRecommendList.set(code, ary);
     const data = {
       data: {},
       state: 200,
