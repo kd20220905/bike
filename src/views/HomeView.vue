@@ -98,17 +98,16 @@ async function clickMarker(event) {
   map.value.setView(event.latlng, 18);
 }
 // 已推薦API
-async function getLocationRecommend() {
+const getLocationRecommend = async () => {
   await LocationRecommend.then((res) => {
     console.log(res, "getLocationRecommend");
     const data = res.data;
     for (let [key, value] of data) {
-      console.log(markerInfo.value.code === key, "map");
       LocationRecommendInfo.value =
         key === markerInfo.value.code ? value : LocationRecommendInfo.value;
     }
   });
-}
+};
 const LocationRecommendInfo = ref([]);
 async function getBikes() {
   try {
@@ -188,6 +187,7 @@ const searchBikeCode = (nCode) => {
           :sbi="markerInfo.sbi"
           :bemp="markerInfo.bemp"
           :locationrecommendinfo="LocationRecommendInfo"
+          @getlocationrecommend="getLocationRecommend"
         />
       </div>
       <FooterPage />

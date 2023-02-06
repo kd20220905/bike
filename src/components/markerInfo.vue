@@ -22,6 +22,7 @@ const props = defineProps({
     type: Array,
   },
 });
+const emit = defineEmits(["getlocationrecommend"]);
 // 自我推薦
 const stars = ref([
   ["far", "star"],
@@ -36,6 +37,15 @@ const recommendInfo = ref({
   tel: "",
   stars: 1,
 });
+const resetRecommendInfo = () => {
+  recommendInfo.value = {
+    name: "",
+    address: "",
+    tel: "",
+    stars: 1,
+  };
+};
+
 watchEffect(() => {
   for (let i = 0; i < recommendInfo.value.stars; i++) {
     stars.value[i] = ["fas", "star"];
@@ -62,16 +72,17 @@ const hoverOutStar = () => {
 const clickStar = (index) => {
   recommendInfo.value.stars = index + 1;
 };
-const submitRecommend = () => {
+
+const submitRecommend = async () => {
   const data = {
     code: props.code,
     recommend: {
       ...recommendInfo.value,
     },
   };
-  addLocationRecommend(data).then((res) => {
-    console.log(res);
-  });
+  await addLocationRecommend(data);
+  resetRecommendInfo();
+  emit("getlocationrecommend");
   console.log(data, "submitRecommend");
 };
 </script>

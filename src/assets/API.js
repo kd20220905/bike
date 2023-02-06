@@ -28,6 +28,12 @@ LocationRecommendList.set("500606090", [
     tel: "047772754",
     stars: 3,
   },
+  {
+    name: "玉山銀行",
+    address: "407台中市西屯區大墩路17號",
+    tel: "0424612522",
+    stars: 1,
+  },
 ]);
 
 export const LocationRecommend = new Promise((resolve) => {
@@ -37,18 +43,21 @@ export const LocationRecommend = new Promise((resolve) => {
   };
   setTimeout(() => {
     resolve(data);
-  }, 300);
+  });
 });
 
+// 需要新增景點API
 export const addLocationRecommend = (info) => {
   return new Promise((resolve) => {
-    console.log(info, "addLocationRecommend");
+    if (!LocationRecommendList.get(info.code)) {
+      LocationRecommendList.set(info.code, [{ ...info.recommend }]);
+    } else {
+      LocationRecommendList.get(info.code).push(info.recommend);
+    }
     const data = {
       data: {},
       state: 200,
     };
-    setTimeout(() => {
-      resolve(data);
-    }, 300);
+    resolve(data);
   });
-}
+};
