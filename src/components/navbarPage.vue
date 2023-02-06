@@ -18,7 +18,7 @@ const searchBikeCode = () => {
 
 <template>
   <div
-    class="mx-3 pb-10 border-b-2 border-black/30 mb-10 md:flex items-end justify-between flex-row"
+    class="mx-3 pb-10 border-b-2 border-white/60 mb-10 md:flex items-end justify-between flex-row"
   >
     <h1 class="my-3 md:m-0">
       <a href="#">
@@ -27,7 +27,7 @@ const searchBikeCode = () => {
     </h1>
     <form class="grid grid-cols-1 gap-3 mt-3 md:grid-cols-2 md:m-0">
       <label for="selectArea" class="font-bold text-black/70 text-xl">
-        <span>選取行政區：</span>
+        <span class="text-white">選取行政區：</span>
         <select
           name="Area"
           id="selectArea"
@@ -69,7 +69,7 @@ const searchBikeCode = () => {
       </label>
 
       <label for="bikeNumber" class="font-bold text-black/70 text-xl">
-        <span>車站代號：</span>
+        <span class="text-white">車站代號：</span>
         <input
           type="number"
           id="bikeNumber"
