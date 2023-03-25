@@ -19,7 +19,7 @@ const props = defineProps({
     default: "3",
   },
   locationrecommendinfo: {
-    type: Array,
+    type: Object,
   },
 });
 const emit = defineEmits(["getlocationrecommend"]);

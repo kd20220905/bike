@@ -126,9 +126,7 @@ const repeatGetAPI = () => {
   liveSetTimeout = setTimeout(repeatGetAPI, 1000 * 60 * 5);
 };
 onMounted(() => {
-  // 接收bike資訊
   repeatGetAPI();
-  // map地圖
   buildMap(center.value, zoom.value, m_mono);
 });
 
@@ -141,7 +139,6 @@ const changeCenter = (latLng, nZoom) => {
   const aLatLng = latLng.split(",");
   map.value.setView(aLatLng, nZoom);
 };
-
 // 以代碼搜尋站點
 const isSearchState = ref(true);
 const searchBikeCode = (nCode) => {
