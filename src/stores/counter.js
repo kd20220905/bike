@@ -10,7 +10,7 @@ export const useCounterStore = defineStore("counter", () => {
   async function GetBikes() {
     try {
       const res = await axios.get(
-        "https://datacenter.taichung.gov.tw/swagger/OpenData/9af00e84-473a-4f3d-99be-b875d8e86256"
+        "https://datacenter.taichung.gov.tw/swagger/OpenData/86dfad5c-540c-4479-bb7d-d7439d34eeb1"
       );
       this.bikeAry = res.data.retVal;
       return this.bikeAry;
